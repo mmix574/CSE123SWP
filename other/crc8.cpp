@@ -11,6 +11,18 @@ char get_bit(char byte, int pos){
 	return (byte >> pos) & 1;
 }
 
+void print_char(char A){
+	for(int i =7 ;i>=0;i--){
+		if ((A>>i) &1)
+		{
+			printf("%s", "1");
+		}else{
+			printf("%s", "0");
+		}
+	}
+	printf("\n");
+}
+
 
 int main(void){
 
@@ -18,8 +30,10 @@ int main(void){
 	// int b = get_bit(a,2);
 
 	// printf("%d\n", b);
-	char a[] = "hellosdhj worldsdsdsdsds";
-	printf("%d\n",crc8(a,48));
+	char a[] = "dskkfe";
+	char check = crc8(a,3);
+
+	print_char(check);
 
 	return 0;
 }
@@ -51,6 +65,7 @@ char crc8(char* array, int array_len){
 	}
 	return crc;
 }
+
 
 
 
