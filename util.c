@@ -13,11 +13,21 @@ char * convert_frame_to_char(Frame * frame)
            0,
            MAX_FRAME_SIZE);
 
+    //拷贝头部
+    memcpy(char_buffer,
+           frame->header,
+           FRAME_HEADER_SIZE);
 
-    memcpy(char_buffer, 
+    //拷贝数据部分
+    memcpy(char_buffer+FRAME_HEADER_SIZE,
            frame->data,
            FRAME_PAYLOAD_SIZE);
-    
+
+    memcpy(char_buffer+FRAME_HEADER_SIZE+FRAME_PAYLOAD_SIZE,
+           frame->crc,
+           FRAME_CRC_SIZE);
+
+//    char_buffer[MAX_FRAME_SIZE-1] = frame->crc;
 
     return char_buffer;
 }
@@ -27,15 +37,34 @@ Frame * convert_char_to_frame(char * char_buf)
 {
     //TODO: You should implement this as necessary
     Frame * frame = (Frame *) malloc(sizeof(Frame));
-    memset(frame->data,
-           0,
-           sizeof(char)*sizeof(frame->data));
-    memcpy(frame->data, 
+
+//    memset(frame->data,
+//           0,
+//           sizeof(char)*sizeof(frame->data));
+    memcpy(frame->header,
            char_buf,
+           sizeof(char)*sizeof(frame->header));
+
+    memcpy(frame->data, 
+           char_buf + FRAME_HEADER_SIZE,
            sizeof(char)*sizeof(frame->data));
+
+//    frame->crc = char_buf[MAX_FRAME_SIZE-1];
+    memcpy(frame->crc,
+           char_buf + FRAME_HEADER_SIZE+FRAME_PAYLOAD_SIZE,
+           sizeof(char)*sizeof(frame->crc));
+
     return frame;
 }
 
+
+Frame * add_crc_check(Frame * f){
+    return NULL;
+}
+
+int corruped(Frame * f){
+    return 0;
+}
 
 
 

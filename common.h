@@ -107,12 +107,13 @@ typedef struct Receiver_t Receiver;
 //修改成这里
 #define FRAME_HEADER_SIZE 15
 #define FRAME_PAYLOAD_SIZE 48
-
+#define FRAME_CRC_SIZE 1
 
 struct Frame_t
 {
     char header[FRAME_HEADER_SIZE];
     char data[FRAME_PAYLOAD_SIZE];
+    char crc[FRAME_CRC_SIZE];
 };
 typedef struct Frame_t Frame;
 

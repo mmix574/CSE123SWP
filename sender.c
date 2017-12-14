@@ -18,21 +18,47 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 void handle_incoming_acks(Sender * sender,
                           LLnode ** outgoing_frames_head_ptr)
 {
-    //TODO: Suggested steps for handling incoming ACKs
-    //    1) Dequeue the ACK from the sender->input_framelist_head
-    //    2) Convert the char * buffer to a Frame data type
-    //    3) Check whether the frame is corrupted
-    //    4) Check whether the frame is for this sender
-    //    5) Do sliding window protocol for sender/receiver pair
+    int frame_length = ll_get_length(sender->input_framelist_head);
+    while (frame_length > 0)
+    {
+        //Pop a node off and update the input_cmd_length
+        LLnode * ll_frame_node = ll_pop_node(&sender->input_framelist_head);
+        frame_length = ll_get_length(sender->input_framelist_head);
 
-    // if(ll_get_length(outgoing_frames_head_ptr)){
-    //     printf("%s\n", "i get someting");
-    // }
+        Frame * f = (Frame *) ll_frame_node->value;
+        free(ll_frame_node);
+            
+        printf("%s\n",f->data);
 
-    int input_framelist_head_length = ll_get_length(sender->input_framelist_head);
+        //DUMMY CODE: Add the raw char buf to the outgoing_frames list
+        //NOTE: You should not blindly send this message out!
+        //      Ask yourself: Is this message actually going to the right receiver (recall that default behavior of send is to broadcast to all receivers)?
+        //                    Does the receiver have enough space in in it's input queue to handle this message?
+        //                    Were the previous messages sent to this receiver ACTUALLY delivered to the receiver?
+//        int msg_length = strlen(outgoing_cmd->message);
+//        if (msg_length > MAX_FRAME_SIZE)
+//        {
+//            //Do something about messages that exceed the frame size
+//            printf("<SEND_%d>: sending messages of length greater than %d is not implemented\n", sender->send_id, MAX_FRAME_SIZE);
+//        }
+//        else
+//        {
+//            //This is probably ONLY one step you want
+//            Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
+//            strcpy(outgoing_frame->data, outgoing_cmd->message);
+//
+//            //At this point, we don't need the outgoing_cmd
+//            free(outgoing_cmd->message);
+//            free(outgoing_cmd);
+//
+//            //Convert the message to the outgoing_charbuf
+//            char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
+//            ll_append_node(outgoing_frames_head_ptr,
+//                           outgoing_charbuf);
+//            free(outgoing_frame);
+//        }
+    }   
 
-    if(input_framelist_head_length){
-    }
 }
 
 
