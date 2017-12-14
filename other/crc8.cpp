@@ -30,8 +30,8 @@ int main(void){
 	// int b = get_bit(a,2);
 
 	// printf("%d\n", b);
-	char a[] = "dskkfe";
-	char check = crc8(a,3);
+	char a[] = "kk";
+	char check = crc8(a,strlen(a));
 
 	print_char(check);
 
@@ -53,12 +53,12 @@ char crc8(char* array, int array_len){
 			if((crc & 0x80) == 0)
 			{
 				crc =  crc << 1;
-				crc = crc || get_bit(next_byte, j); 
+				crc = crc | get_bit(next_byte, j); 
 			} 
 				else
 			{ 
 				crc =  crc << 1;
-				crc = crc || get_bit(next_byte, j);
+				crc = crc | get_bit(next_byte, j);
 				crc = crc ^ poly;
 			}
 		}
