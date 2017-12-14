@@ -62,10 +62,17 @@ Frame * add_crc_check(Frame * f){
     return NULL;
 }
 
-int corruped(Frame * f){
+int corruped(char * char_frame){
     return 0;
 }
 
+
+char * frame_add_crc_8(char *char_frame){
+    char_frame[MAX_FRAME_SIZE-1] = 0x00;
+//    char crc =
+    return char_frame;
+
+}
 
 
 //Linked list functions

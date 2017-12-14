@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/CSE123SWP.dir/receiver.c.o"
   "CMakeFiles/CSE123SWP.dir/sender.c.o"
   "CMakeFiles/CSE123SWP.dir/util.c.o"
+  "CMakeFiles/CSE123SWP.dir/crc.cpp.o"
   "CSE123SWP.pdb"
   "CSE123SWP"
 )

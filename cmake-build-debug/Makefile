@@ -150,6 +150,33 @@ communicate.c.s:
 	$(MAKE) -f CMakeFiles/CSE123SWP.dir/build.make CMakeFiles/CSE123SWP.dir/communicate.c.s
 .PHONY : communicate.c.s
 
+crc.o: crc.cpp.o
+
+.PHONY : crc.o
+
+# target to build an object file
+crc.cpp.o:
+	$(MAKE) -f CMakeFiles/CSE123SWP.dir/build.make CMakeFiles/CSE123SWP.dir/crc.cpp.o
+.PHONY : crc.cpp.o
+
+crc.i: crc.cpp.i
+
+.PHONY : crc.i
+
+# target to preprocess a source file
+crc.cpp.i:
+	$(MAKE) -f CMakeFiles/CSE123SWP.dir/build.make CMakeFiles/CSE123SWP.dir/crc.cpp.i
+.PHONY : crc.cpp.i
+
+crc.s: crc.cpp.s
+
+.PHONY : crc.s
+
+# target to generate assembly for a file
+crc.cpp.s:
+	$(MAKE) -f CMakeFiles/CSE123SWP.dir/build.make CMakeFiles/CSE123SWP.dir/crc.cpp.s
+.PHONY : crc.cpp.s
+
 input.o: input.c.o
 
 .PHONY : input.o
@@ -324,6 +351,9 @@ help:
 	@echo "... communicate.o"
 	@echo "... communicate.i"
 	@echo "... communicate.s"
+	@echo "... crc.o"
+	@echo "... crc.i"
+	@echo "... crc.s"
 	@echo "... input.o"
 	@echo "... input.i"
 	@echo "... input.s"

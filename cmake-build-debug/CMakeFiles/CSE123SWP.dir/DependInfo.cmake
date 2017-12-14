@@ -18,6 +18,7 @@ set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_TARGET_INCLUDE_PATH
   )
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ubuntu/Desktop/CSE123SWP/crc.cpp" "/home/ubuntu/Desktop/CSE123SWP/cmake-build-debug/CMakeFiles/CSE123SWP.dir/crc.cpp.o"
   "/home/ubuntu/Desktop/CSE123SWP/other/crc8.cpp" "/home/ubuntu/Desktop/CSE123SWP/cmake-build-debug/CMakeFiles/CSE123SWP.dir/other/crc8.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

@@ -28,6 +28,12 @@ long timeval_usecdiff(struct timeval *,
                       struct timeval *);
 
 //TODO: Implement these functions
+
+//DONE! @A@
 char * convert_frame_to_char(Frame *);
 Frame * convert_char_to_frame(char *);
+
+//新添加函数
+char * frame_add_crc_8(char *char_frame);
+
 #endif

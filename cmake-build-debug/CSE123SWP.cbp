@@ -93,6 +93,12 @@
 		<Unit filename="/home/ubuntu/Desktop/CSE123SWP/communicate.h">
 			<Option target="CSE123SWP"/>
 		</Unit>
+		<Unit filename="/home/ubuntu/Desktop/CSE123SWP/crc.cpp">
+			<Option target="CSE123SWP"/>
+		</Unit>
+		<Unit filename="/home/ubuntu/Desktop/CSE123SWP/crc.h">
+			<Option target="CSE123SWP"/>
+		</Unit>
 		<Unit filename="/home/ubuntu/Desktop/CSE123SWP/input.c">
 			<Option target="CSE123SWP"/>
 		</Unit>

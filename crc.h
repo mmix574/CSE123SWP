@@ -1,5 +1,5 @@
 //
-// Created by ubuntu on 12/14/17.
+// Created by mmix on 12/14/17.
 //
 
 #ifndef CSE123SWP_CRC_H
