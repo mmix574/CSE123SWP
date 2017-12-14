@@ -1,12 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
-char get_bit (char byte, int pos); // return a char with a value of 0 or 1 depending on whether
-// the bit in the pos is 0 or 1
+char get_bit (char byte, int pos); // return a char with a value of 0 or 1 depending on whether // the bit in the pos is 0 or 1
 char crc8 (char* array, int byte_len); // or crc16, crc32 etc.
-// void append_crc (char* array, int array_len); // append crc remainder to the char array
-// int is_corrupted (char* array, int array_len); // return 1 if a frame is corrupted, otherwise
+void append_crc (char* array, int array_len); // append crc remainder to the char array
+int is_corrupted (char* array, int array_len); // return 1 if a frame is corrupted, otherwise
+
+
+
 char get_bit(char byte, int pos){
 	return (byte >> pos) & 1;
 }
@@ -28,16 +31,47 @@ int main(void){
 
 	// char a = 2;
 	// int b = get_bit(a,2);
-
 	// printf("%d\n", b);
-	char a[] = "kk";
-	char check = crc8(a,strlen(a));
 
-	print_char(check);
+	char * A = (char *)malloc(sizeof(A)*20);
+	A[0] = 'h';
+	A[1] = 'e';
+	A[2] = 'l';
+	A[3] = 'l';
+	A[4] = 'o';
+	A[5] = '\0';
+	printf("%s\n", A);
 
+
+
+	printf("len is %d\n", strlen(A));
+	append_crc(A,strlen(A));
+
+	printf("%s\n", "---");
+	printf("%c\n", A[4]);
+	print_char(A[5]);
+	printf("%s\n", "---");
+
+	printf("crc is %d\n", A[5]);
+
+
+	int c = is_corrupted(A,strlen(A));
+
+	printf("%s\n", A);
 	return 0;
 }
 
+
+void append_crc (char* array, int array_len){
+	array[array_len] = 0x00;
+	array[array_len] = crc8(array,array_len+1);
+	array[array_len+1] = '\0';
+}
+
+int is_corrupted (char* array, int array_len){
+	int crc = crc8(array,array_len);
+	return crc?1:0;
+}
 
 //Function returns the remainder from a CRC calculation on a char* array of length byte_len
 char crc8(char* array, int array_len){
@@ -63,6 +97,7 @@ char crc8(char* array, int array_len){
 			}
 		}
 	}
+	print_char(crc);
 	return crc;
 }
 
