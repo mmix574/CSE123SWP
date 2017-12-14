@@ -1,3 +1,4 @@
 .debug*
 .expected_*
 .output*
+cmake-build-debug/
