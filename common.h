@@ -98,11 +98,20 @@ typedef struct Receiver_t Receiver;
 
 #define MAX_FRAME_SIZE 64
 
+
+
 //TODO: You should change this!
 //Remember, your frame can be AT MOST 64 bytes!
-#define FRAME_PAYLOAD_SIZE 64
+// #define FRAME_PAYLOAD_SIZE 64
+
+//修改成这里
+#define FRAME_HEADER_SIZE 15
+#define FRAME_PAYLOAD_SIZE 48
+
+
 struct Frame_t
 {
+    char header[FRAME_HEADER_SIZE];
     char data[FRAME_PAYLOAD_SIZE];
 };
 typedef struct Frame_t Frame;

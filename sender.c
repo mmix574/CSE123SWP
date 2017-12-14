@@ -23,7 +23,16 @@ void handle_incoming_acks(Sender * sender,
     //    2) Convert the char * buffer to a Frame data type
     //    3) Check whether the frame is corrupted
     //    4) Check whether the frame is for this sender
-    //    5) Do sliding window protocol for sender/receiver pair   
+    //    5) Do sliding window protocol for sender/receiver pair
+
+    // if(ll_get_length(outgoing_frames_head_ptr)){
+    //     printf("%s\n", "i get someting");
+    // }
+
+    int input_framelist_head_length = ll_get_length(sender->input_framelist_head);
+
+    if(input_framelist_head_length){
+    }
 }
 
 
@@ -86,6 +95,10 @@ void handle_input_cmds(Sender * sender,
 void handle_timedout_frames(Sender * sender,
                             LLnode ** outgoing_frames_head_ptr)
 {
+
+    // printf("%s\n","handle_timedout_frames");
+
+
     //TODO: Suggested steps for handling timed out datagrams
     //    1) Iterate through the sliding window protocol information you maintain for each receiver
     //    2) Locate frames that are timed out and add them to the outgoing frames
@@ -180,6 +193,11 @@ void * run_sender(void * input_sender)
                                    &sender->buffer_mutex,
                                    &time_spec);
         }
+
+
+
+
+        
         //Implement this
         handle_incoming_acks(sender,
                              &outgoing_frames_head);
@@ -187,6 +205,7 @@ void * run_sender(void * input_sender)
         //Implement this
         handle_input_cmds(sender,
                           &outgoing_frames_head);
+
 
         pthread_mutex_unlock(&sender->buffer_mutex);
 
@@ -197,10 +216,19 @@ void * run_sender(void * input_sender)
 
         //CHANGE THIS AT YOUR OWN RISK!
         //Send out all the frames
+
+
+
+
+
+
+
+        //发送所有帧
         int ll_outgoing_frame_length = ll_get_length(outgoing_frames_head);
         
         while(ll_outgoing_frame_length > 0)
         {
+        	// printf("%s\n","1");
             LLnode * ll_outframe_node = ll_pop_node(&outgoing_frames_head);
             char * char_buf = (char *)  ll_outframe_node->value;
 

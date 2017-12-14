@@ -29,7 +29,20 @@ void handle_incoming_msgs(Receiver * receiver,
         //NOTE: You should not blindly print messages!
         //      Ask yourself: Is this message really for me?
         //                    Is this message corrupted?
-        //                    Is this an old, retransmitted message?           
+        //                    Is this an old, retransmitted message? 
+
+
+        // --返回ack--
+        Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
+        strcpy(outgoing_frame->data, "ACK?!");
+
+        //Convert the message to the outgoing_charbuf
+        char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
+        ll_append_node(outgoing_frames_head_ptr,
+                       outgoing_charbuf);
+
+
+
         char * raw_char_buf = (char *) ll_inmsg_node->value;
         Frame * inframe = convert_char_to_frame(raw_char_buf);
         
@@ -90,6 +103,8 @@ void * run_receiver(void * input_receiver)
 
         //Check whether anything arrived
         int incoming_msgs_length = ll_get_length(receiver->input_framelist_head);
+
+
         if (incoming_msgs_length == 0)
         {
             //Nothing has arrived, do a timed wait on the condition variable (which releases the mutex). Again, you don't really need to do the timed wait.

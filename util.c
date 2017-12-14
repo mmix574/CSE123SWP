@@ -1,5 +1,44 @@
 #include "util.h"
 
+
+
+
+char * convert_frame_to_char(Frame * frame)
+{
+    //TODO: You should implement this as necessary
+    char * char_buffer = (char *) malloc(MAX_FRAME_SIZE);
+
+    //清空内容
+    memset(char_buffer,
+           0,
+           MAX_FRAME_SIZE);
+
+
+    memcpy(char_buffer, 
+           frame->data,
+           FRAME_PAYLOAD_SIZE);
+    
+
+    return char_buffer;
+}
+
+
+Frame * convert_char_to_frame(char * char_buf)
+{
+    //TODO: You should implement this as necessary
+    Frame * frame = (Frame *) malloc(sizeof(Frame));
+    memset(frame->data,
+           0,
+           sizeof(char)*sizeof(frame->data));
+    memcpy(frame->data, 
+           char_buf,
+           sizeof(char)*sizeof(frame->data));
+    return frame;
+}
+
+
+
+
 //Linked list functions
 int ll_get_length(LLnode * head)
 {
@@ -118,30 +157,3 @@ void print_cmd(Cmd * cmd)
            cmd->message);
 }
 
-
-char * convert_frame_to_char(Frame * frame)
-{
-    //TODO: You should implement this as necessary
-    char * char_buffer = (char *) malloc(MAX_FRAME_SIZE);
-    memset(char_buffer,
-           0,
-           MAX_FRAME_SIZE);
-    memcpy(char_buffer, 
-           frame->data,
-           FRAME_PAYLOAD_SIZE);
-    return char_buffer;
-}
-
-
-Frame * convert_char_to_frame(char * char_buf)
-{
-    //TODO: You should implement this as necessary
-    Frame * frame = (Frame *) malloc(sizeof(Frame));
-    memset(frame->data,
-           0,
-           sizeof(char)*sizeof(frame->data));
-    memcpy(frame->data, 
-           char_buf,
-           sizeof(char)*sizeof(frame->data));
-    return frame;
-}
