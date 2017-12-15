@@ -12,20 +12,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10701efe-e365-425e-be2e-d3c2f32a9aac" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/crc.c" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
-      <change beforePath="$PROJECT_DIR$/crc.cpp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/crc.h" afterPath="$PROJECT_DIR$/crc.h" />
-      <change beforePath="$PROJECT_DIR$/receiver.c" afterPath="$PROJECT_DIR$/receiver.c" />
-      <change beforePath="$PROJECT_DIR$/receiver.o" afterPath="$PROJECT_DIR$/receiver.o" />
-      <change beforePath="$PROJECT_DIR$/sender.c" afterPath="$PROJECT_DIR$/sender.c" />
-      <change beforePath="$PROJECT_DIR$/sender.o" afterPath="$PROJECT_DIR$/sender.o" />
-      <change beforePath="$PROJECT_DIR$/tritontalk" afterPath="$PROJECT_DIR$/tritontalk" />
-      <change beforePath="$PROJECT_DIR$/util.c" afterPath="$PROJECT_DIR$/util.c" />
-      <change beforePath="$PROJECT_DIR$/util.h" afterPath="$PROJECT_DIR$/util.h" />
-      <change beforePath="$PROJECT_DIR$/util.o" afterPath="$PROJECT_DIR$/util.o" />
+      <change beforePath="$PROJECT_DIR$/communicate.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/crc.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/input.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/main.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/receiver.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/sender.o" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/util.o" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -103,8 +98,8 @@
       <file leaf-file-name=".output.3" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.output.3">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+            <state relative-caret-position="306">
+              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -187,11 +182,6 @@
               <item name="CSE123SWP" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="CSE123SWP" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="CSE123SWP" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="CSE123SWP" type="462c0819:PsiDirectoryNode" />
-              <item name="other" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -241,18 +231,17 @@
       <updated>1513242018308</updated>
       <workItem from="1513242020271" duration="1565000" />
       <workItem from="1513244774339" duration="4086000" />
-      <workItem from="1513295906679" duration="1572000" />
+      <workItem from="1513295906679" duration="1672000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7223000" />
+    <option name="totallyTimeSpent" value="7323000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="297" y="43" width="1396" height="910" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21418338" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21418338" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -568,8 +557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.output.3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        <state relative-caret-position="306">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding />
         </state>
       </provider>

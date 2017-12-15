@@ -3,3 +3,4 @@
 .output*
 cmake-build-debug/*
 .idea/*
+*.o
