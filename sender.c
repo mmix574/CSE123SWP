@@ -111,6 +111,12 @@ void handle_input_cmds(Sender * sender,
             //Convert the message to the outgoing_charbuf
             char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
 
+
+            // ---------2017-12-15------------//
+            frame_add_crc_8(outgoing_charbuf);
+
+
+
             ll_append_node(outgoing_frames_head_ptr,
                            outgoing_charbuf);
             free(outgoing_frame);

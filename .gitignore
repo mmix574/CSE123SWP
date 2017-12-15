@@ -2,3 +2,4 @@
 .expected_*
 .output*
 cmake-build-debug/*
+.idea/*

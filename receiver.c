@@ -44,8 +44,18 @@ void handle_incoming_msgs(Receiver * receiver,
 
 
         char * raw_char_buf = (char *) ll_inmsg_node->value;
+
+
+        //检测帧是否损坏
+        int crop = frame_corruped(raw_char_buf);
+        if(crop){
+            return ;
+        }
+
         Frame * inframe = convert_char_to_frame(raw_char_buf);
-        
+
+
+
         //Free raw_char_buf
         free(raw_char_buf);
         

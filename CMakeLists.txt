@@ -16,4 +16,4 @@ add_executable(CSE123SWP
         sender.c
         sender.h
         util.c
-        util.h crc.cpp crc.h)
+        util.h crc.c crc.h)
