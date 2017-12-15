@@ -118,6 +118,12 @@ struct Frame_t
 typedef struct Frame_t Frame;
 
 
+//struct sendQ_slot {
+//    Event timeout; /* event associated with send -timeout */
+//    Frame frame;
+//} sendQ[SWS];
+
+
 //Declare global variables here
 //DO NOT CHANGE: 
 //   1) glb_senders_array

@@ -11,8 +11,23 @@ void init_sender(Sender * sender, int id)
 struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 {
     //TODO: You should fill in this function so that it returns the next timeout that should occur
+
+
+
+
+
     return NULL;
 }
+
+
+//NFE - Next frame expected
+//        LFR - Sequence number of largest consecutive frame
+//received
+//        LAF - Sequence number of largest acceptable frame
+//RWS - Max receive window size
+//LFR = NFE - 1
+//LAF = NFE + RWS - 1
+
 
 
 void handle_incoming_acks(Sender * sender,
