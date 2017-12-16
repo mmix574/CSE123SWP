@@ -1,0 +1,3 @@
+/home/ubuntu/Desktop/CSE123SWP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/Desktop/CSE123SWP/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ubuntu/Desktop/CSE123SWP/cmake-build-debug/CMakeFiles/CSE123SWP.dir

@@ -42,4 +42,7 @@ Frame * convert_char_to_frame(char *);
 char * frame_add_crc_8(char *char_frame);
 int frame_corruped(char * char_frame);
 
+Frame * frame_add_dst_src(Frame * frame,char dst,char src);
+void frame_get_dst_src(Frame * frame,char *dst,char *src);
+
 #endif

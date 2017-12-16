@@ -84,6 +84,9 @@ struct Sender_t
     LLnode * input_cmdlist_head;
     LLnode * input_framelist_head;
     int send_id;
+
+
+
 };
 
 enum SendFrame_DstType 
@@ -124,6 +127,20 @@ struct sendQ_slot {
     struct timeval startime;
     Frame frame;
 } sendQ[SWS];
+
+
+//NFE - Next frame expected
+//LFR - Sequence number of largest consecutive frame received
+//LAF - Sequence number of largest acceptable frame
+//
+//
+//RWS - Max receive window size
+//LFR = NFE - 1
+//LAF = NFE + RWS - 1
+
+//struct sender_receiver_status{
+//    int NFE;
+//};
 
 
 //Declare global variables here

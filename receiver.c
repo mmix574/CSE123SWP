@@ -57,8 +57,6 @@ void handle_incoming_msgs(Receiver * receiver,
 
         Frame * inframe = convert_char_to_frame(raw_char_buf);
 
-
-
         //Free raw_char_buf
         free(raw_char_buf);
         

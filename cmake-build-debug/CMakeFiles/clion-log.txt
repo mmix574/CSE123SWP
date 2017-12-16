@@ -1,0 +1,4 @@
+/home/ubuntu/Desktop/clion-2017.3/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/ubuntu/Desktop/CSE123SWP
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/ubuntu/Desktop/CSE123SWP/cmake-build-debug

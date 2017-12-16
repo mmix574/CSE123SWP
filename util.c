@@ -71,6 +71,26 @@ char * frame_add_crc_8(char *char_frame){
 }
 
 
+//char *frame_add_senderid_receiverid(char *char_frame,char sender,char receiver){
+//
+//}
+//
+//char *frame_get_senderid_receiverid(char *char_frame,char *sender,char *receiver){
+//
+//}
+
+
+Frame * frame_add_dst_src(Frame * frame,char dst,char src){
+    frame->header[0] = dst;
+    frame->header[1] = src;
+    return frame;
+}
+
+void frame_get_dst_src(Frame * frame,char *dst,char *src){
+    *dst = frame->header[0];
+    *src = frame->header[1];
+}
+
 //Linked list functions
 int ll_get_length(LLnode * head)
 {

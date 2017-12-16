@@ -20,16 +20,20 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 }
 
 
+
+
 //NFE - Next frame expected
-//        LFR - Sequence number of largest consecutive frame
-//received
-//        LAF - Sequence number of largest acceptable frame
+//LFR - Sequence number of largest consecutive frame received
+//LAF - Sequence number of largest acceptable frame
+//
+//
 //RWS - Max receive window size
 //LFR = NFE - 1
 //LAF = NFE + RWS - 1
 
 
 
+// Only
 void handle_incoming_acks(Sender * sender,
                           LLnode ** outgoing_frames_head_ptr)
 {
@@ -103,8 +107,7 @@ void handle_input_cmds(Sender * sender,
         free(ll_input_cmd_node);
 
 
-//        src_id
-//        dst_id
+
 
 
         //DUMMY CODE: Add the raw char buf to the outgoing_frames list
@@ -128,9 +131,21 @@ void handle_input_cmds(Sender * sender,
             free(outgoing_cmd->message);
             free(outgoing_cmd);
 
+
+            // ---------2017-12-16------------//
+            //        src_id
+            //        dst_id
+            int dst_id = (int)outgoing_cmd->dst_id;
+            int src_id = (int)outgoing_cmd->src_id;
+
+            printf("%d %d\n",dst_id,src_id);
+
+//            printf("%lu\n", sizeof(outgoing_cmd->dst_id));
+
+
+
             //Convert the message to the outgoing_charbuf
             char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
-
 
             // ---------2017-12-15------------//
             frame_add_crc_8(outgoing_charbuf);
