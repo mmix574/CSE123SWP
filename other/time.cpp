@@ -2,22 +2,21 @@
 #include <sys/time.h>
 
 
-//Compute the difference in usec for two timeval objects
-long timeval_usecdiff(struct timeval *start_time, 
-                      struct timeval *finish_time)
-{
-  long usec;
-  usec=(finish_time->tv_sec - start_time->tv_sec)*1000000;
-  usec+=(finish_time->tv_usec- start_time->tv_usec);
-  return usec;
-}
-
+// struct timeval {
+//    time_t      tv_sec;     /* seconds */
+//    suseconds_t tv_usec;    /* microseconds */
+// };
+// long type variable
 
 int main(void){
-	srand(time(NULL));
+	// srand(time(NULL));
 	struct timeval    curr_timeval;
     gettimeofday(&curr_timeval, 
                      NULL);
+
+    printf("%ld\n", curr_timeval.tv_sec);
+    printf("%ld\n", curr_timeval.tv_usec);
+
 
 	return 0;
 }
