@@ -32,6 +32,10 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 //LAF = NFE + RWS - 1
 
 
+void update_sender_receiver_info(){
+
+}
+
 
 // Only
 void handle_incoming_acks(Sender * sender,
@@ -216,6 +220,7 @@ void * run_sender(void * input_sender)
         else
         {
             //Take the difference between the next event and the current time
+            //睡到检查时间
             sleep_usec_time = timeval_usecdiff(&curr_timeval,
                                                expiring_timeval);
 
