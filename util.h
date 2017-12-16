@@ -41,4 +41,5 @@ Frame * convert_char_to_frame(char *);
 //新添加函数
 char * frame_add_crc_8(char *char_frame);
 int frame_corruped(char * char_frame);
+
 #endif

@@ -50,7 +50,6 @@ echo -n "Test case 2: Sending 10 packets and expecting receiver to print them ou
 
 (for i in `seq 1 10`; do echo "<RECV_0>:[Packet: $i]"; done) > .expected_output.2
 
-cat .expected_output.2 > out2
 
 check_output 2
 

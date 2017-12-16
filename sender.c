@@ -50,6 +50,7 @@ void handle_incoming_acks(Sender * sender,
         //      Ask yourself: Is this message actually going to the right receiver (recall that default behavior of send is to broadcast to all receivers)?
         //                    Does the receiver have enough space in in it's input queue to handle this message?
         //                    Were the previous messages sent to this receiver ACTUALLY delivered to the receiver?
+
 //        int msg_length = strlen(outgoing_cmd->message);
 //        if (msg_length > MAX_FRAME_SIZE)
 //        {
@@ -100,7 +101,11 @@ void handle_input_cmds(Sender * sender,
         //Cast to Cmd type and free up the memory for the node
         Cmd * outgoing_cmd = (Cmd *) ll_input_cmd_node->value;
         free(ll_input_cmd_node);
-            
+
+
+//        src_id
+//        dst_id
+
 
         //DUMMY CODE: Add the raw char buf to the outgoing_frames list
         //NOTE: You should not blindly send this message out!
@@ -151,6 +156,7 @@ void handle_timedout_frames(Sender * sender,
     //    1) Iterate through the sliding window protocol information you maintain for each receiver
     //    2) Locate frames that are timed out and add them to the outgoing frames
     //    3) Update the next timeout field on the outgoing frames
+
 }
 
 
@@ -176,7 +182,8 @@ void * run_sender(void * input_sender)
     pthread_mutex_init(&sender->buffer_mutex, NULL);
 
     while(1)
-    {    
+    {  
+      
         outgoing_frames_head = NULL;
 
         //Get the current time

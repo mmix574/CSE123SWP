@@ -117,11 +117,13 @@ struct Frame_t
 };
 typedef struct Frame_t Frame;
 
+#define SWS 5
 
-//struct sendQ_slot {
-//    Event timeout; /* event associated with send -timeout */
-//    Frame frame;
-//} sendQ[SWS];
+struct sendQ_slot {
+    struct timespec  timeout;
+    struct timeval startime;
+    Frame frame;
+} sendQ[SWS];
 
 
 //Declare global variables here
