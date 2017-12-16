@@ -127,22 +127,16 @@ void handle_input_cmds(Sender * sender,
             Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
             strcpy(outgoing_frame->data, outgoing_cmd->message);
 
+
+            // ---------2017-12-16------------//
+            char dst_id = (char)(outgoing_cmd->dst_id);
+            char src_id = (char)(outgoing_cmd->src_id);
+            frame_add_dst_src(outgoing_frame,dst_id,src_id);
+
+
             //At this point, we don't need the outgoing_cmd
             free(outgoing_cmd->message);
             free(outgoing_cmd);
-
-
-            // ---------2017-12-16------------//
-            //        src_id
-            //        dst_id
-            int dst_id = (int)outgoing_cmd->dst_id;
-            int src_id = (int)outgoing_cmd->src_id;
-
-            printf("%d %d\n",dst_id,src_id);
-
-//            printf("%lu\n", sizeof(outgoing_cmd->dst_id));
-
-
 
             //Convert the message to the outgoing_charbuf
             char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);

@@ -202,6 +202,12 @@ void * run_stdinthread(void *threadid)
                         outgoing_cmd->src_id=sender_id;
                         outgoing_cmd->dst_id=receiver_id;
                         outgoing_cmd->message = outgoing_msg;
+
+
+//                        debug
+//                        printf("--%d\n",sender_id);
+//                        printf("--%d\n",receiver_id);
+
                         
                         //Add it to the appropriate input buffer 
                         sender = &glb_senders_array[sender_id];

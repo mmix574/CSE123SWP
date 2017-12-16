@@ -32,20 +32,7 @@ void handle_incoming_msgs(Receiver * receiver,
         //NOTE: You should not blindly print messages!
         //      Ask yourself: Is this message really for me?
         //                    Is this message corrupted?
-        //                    Is this an old, retransmitted message? 
-
-
-        // --返回ack--
-        Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
-        strcpy(outgoing_frame->data, "ACK?!");
-
-        //Convert the message to the outgoing_charbuf
-        char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
-        ll_append_node(outgoing_frames_head_ptr,
-                       outgoing_charbuf);
-
-
-
+        //                    Is this an old, retransmitted message?
         char * raw_char_buf = (char *) ll_inmsg_node->value;
 
 
@@ -56,6 +43,22 @@ void handle_incoming_msgs(Receiver * receiver,
         }
 
         Frame * inframe = convert_char_to_frame(raw_char_buf);
+
+        //检测dst
+        char dst_id,src_id;
+        frame_get_dst_src(inframe,&dst_id,&src_id);
+        if(receiver->recv_id!=dst_id){
+            return ;
+        }
+
+        // --返回ack--
+        Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
+        strcpy(outgoing_frame->data, "ACK?!");
+
+        //Convert the message to the outgoing_charbuf
+        char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
+        ll_append_node(outgoing_frames_head_ptr,
+                       outgoing_charbuf);
 
         //Free raw_char_buf
         free(raw_char_buf);
