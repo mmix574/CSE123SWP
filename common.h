@@ -71,23 +71,7 @@ struct Receiver_t
     int recv_id;
 };
 
-struct Sender_t
-{
-    //DO NOT CHANGE:
-    // 1) buffer_mutex
-    // 2) buffer_cv
-    // 3) input_cmdlist_head
-    // 4) input_framelist_head
-    // 5) send_id
-    pthread_mutex_t buffer_mutex;
-    pthread_cond_t buffer_cv;    
-    LLnode * input_cmdlist_head;
-    LLnode * input_framelist_head;
-    int send_id;
 
-
-
-};
 
 enum SendFrame_DstType 
 {
@@ -120,14 +104,24 @@ struct Frame_t
 };
 typedef struct Frame_t Frame;
 
+
+
 #define SWS 5
 
-struct sendQ_slot {
-    struct timespec  timeout;
-    struct timeval startime;
-    Frame frame;
-} sendQ[SWS];
 
+struct Sender_t
+{
+    //DO NOT CHANGE:
+    // 1) buffer_mutex
+    // 2) buffer_cv
+    // 3) input_cmdlist_head
+    // 4) input_framelist_head
+    // 5) send_id
+    pthread_mutex_t buffer_mutex;
+    pthread_cond_t buffer_cv;
+    LLnode * input_cmdlist_head;
+    LLnode * input_framelist_head;
+    int send_id;
 
 //NFE - Next frame expected
 //LFR - Sequence number of largest consecutive frame received
@@ -135,12 +129,23 @@ struct sendQ_slot {
 //
 //
 //RWS - Max receive window size
+
+
 //LFR = NFE - 1
 //LAF = NFE + RWS - 1
 
-//struct sender_receiver_status{
-//    int NFE;
-//};
+
+    int sendQSize;
+    unsigned char seq_num;
+    unsigned char LAR;
+
+    struct sendQ_slot {
+        struct timespec  timeout;
+        struct timeval startime;
+        Frame *frame;
+    } sendQ[SWS];
+};
+
 
 
 //Declare global variables here

@@ -6,6 +6,8 @@ void init_sender(Sender * sender, int id)
     sender->send_id = id;
     sender->input_cmdlist_head = NULL;
     sender->input_framelist_head = NULL;
+    sender->seq_num = 0;
+
 }
 
 struct timeval * sender_get_next_expiring_timeval(Sender * sender)
@@ -21,7 +23,6 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 
 
 
-
 //NFE - Next frame expected
 //LFR - Sequence number of largest consecutive frame received
 //LAF - Sequence number of largest acceptable frame
@@ -30,11 +31,6 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 //RWS - Max receive window size
 //LFR = NFE - 1
 //LAF = NFE + RWS - 1
-
-
-void update_sender_receiver_info(){
-
-}
 
 
 // Only
