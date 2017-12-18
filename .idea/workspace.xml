@@ -11,19 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10701efe-e365-425e-be2e-d3c2f32a9aac" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/common.h" afterPath="$PROJECT_DIR$/common.h" />
-      <change beforePath="$PROJECT_DIR$/communicate.o" afterPath="$PROJECT_DIR$/communicate.o" />
-      <change beforePath="$PROJECT_DIR$/input.o" afterPath="$PROJECT_DIR$/input.o" />
-      <change beforePath="$PROJECT_DIR$/main.o" afterPath="$PROJECT_DIR$/main.o" />
-      <change beforePath="$PROJECT_DIR$/other/a.out" afterPath="$PROJECT_DIR$/other/a.out" />
-      <change beforePath="$PROJECT_DIR$/receiver.o" afterPath="$PROJECT_DIR$/receiver.o" />
-      <change beforePath="$PROJECT_DIR$/sender.c" afterPath="$PROJECT_DIR$/sender.c" />
-      <change beforePath="$PROJECT_DIR$/sender.o" afterPath="$PROJECT_DIR$/sender.o" />
-      <change beforePath="$PROJECT_DIR$/tritontalk" afterPath="$PROJECT_DIR$/tritontalk" />
-      <change beforePath="$PROJECT_DIR$/util.o" afterPath="$PROJECT_DIR$/util.o" />
-    </list>
+    <list default="true" id="10701efe-e365-425e-be2e-d3c2f32a9aac" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -58,8 +46,8 @@
       <file leaf-file-name="receiver.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/receiver.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1188">
-              <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+            <state relative-caret-position="252">
+              <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -179,7 +167,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="404" />
     <option name="y" value="86" />
     <option name="width" value="1215" />
@@ -260,15 +248,15 @@
       <workItem from="1513319156673" duration="431000" />
       <workItem from="1513319619228" duration="84000" />
       <workItem from="1513397849530" duration="12272000" />
-      <workItem from="1513499730909" duration="60000" />
+      <workItem from="1513499730909" duration="241000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21172000" />
+    <option name="totallyTimeSpent" value="21353000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="404" y="86" width="1215" height="950" extended-state="0" />
+    <frame x="404" y="86" width="1215" height="950" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20823045" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -613,8 +601,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/receiver.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1188">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+        <state relative-caret-position="252">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
