@@ -11,7 +11,6 @@ void init_sender(Sender * sender, int id)
     sender->LAR = 0;
     sender->LAF = 0;
 
-
     for(int i =0;i<SWS;i++){
         sender->sendQ[i].frame = NULL;
     }
@@ -21,15 +20,6 @@ void init_sender(Sender * sender, int id)
 struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 {
     //TODO: You should fill in this function so that it returns the next timeout that should occur
-//    struct sendQ_slot * s= NULL;
-//    for(int i =0;i<SWS;i++) {
-//        if (!s) {
-//            s = &(sender->sendQ[i]);
-//        }
-//        //todo
-//    }
-//    return &(s->endtime);
-
     return NULL;
 }
 
@@ -56,9 +46,6 @@ int sendQ_empty(Sender *sender){
     return sender->LAF == sender->LAR;
 }
 
-
-
-// Only
 void handle_incoming_acks(Sender * sender,
                           LLnode ** outgoing_frames_head_ptr)
 {
@@ -71,43 +58,14 @@ void handle_incoming_acks(Sender * sender,
 
         Frame * f = (Frame *) ll_frame_node->value;
         free(ll_frame_node);
-            
-        printf("%s\n",f->data);
+
+        char ack_num;
+        frame_get_ack_num(f,&ack_num);
+        printf("%d\n",ack_num);
 
 
-        char ack;
-        frame_get_ack_num(f,&ack);
-        printf("%d\n",ack);
 
-        //DUMMY CODE: Add the raw char buf to the outgoing_frames list
-        //NOTE: You should not blindly send this message out!
-        //      Ask yourself: Is this message actually going to the right receiver (recall that default behavior of send is to broadcast to all receivers)?
-        //                    Does the receiver have enough space in in it's input queue to handle this message?
-        //                    Were the previous messages sent to this receiver ACTUALLY delivered to the receiver?
-
-//        int msg_length = strlen(outgoing_cmd->message);
-//        if (msg_length > MAX_FRAME_SIZE)
-//        {
-//            //Do something about messages that exceed the frame size
-//            printf("<SEND_%d>: sending messages of length greater than %d is not implemented\n", sender->send_id, MAX_FRAME_SIZE);
-//        }
-//        else
-//        {
-//            //This is probably ONLY one step you want
-//            Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
-//            strcpy(outgoing_frame->data, outgoing_cmd->message);
-//
-//            //At this point, we don't need the outgoing_cmd
-//            free(outgoing_cmd->message);
-//            free(outgoing_cmd);
-//
-//            //Convert the message to the outgoing_charbuf
-//            char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
-//            ll_append_node(outgoing_frames_head_ptr,
-//                           outgoing_charbuf);
-//            free(outgoing_frame);
-//        }
-    }   
+    }
 
 }
 
@@ -195,7 +153,7 @@ void handle_input_cmds(Sender * sender,
             // 获取时间
             gettimeofday(&(sender->sendQ[sender->LAF].startime),NULL);
             sender->sendQ[sender->LAF].endtime.tv_sec = sender->sendQ[sender->LAF].startime.tv_sec;
-            sender->sendQ[sender->LAF].endtime.tv_usec = sender->sendQ[sender->LAF].startime.tv_usec+1000000;//1s
+            sender->sendQ[sender->LAF].endtime.tv_usec = sender->sendQ[sender->LAF].startime.tv_usec+200000;//0.2s
             sender->sendQ[sender->LAF].frame = outgoing_frame;
 
 
@@ -217,6 +175,39 @@ void handle_timedout_frames(Sender * sender,
     //    2) Locate frames that are timed out and add them to the outgoing frames
     //    3) Update the next timeout field on the outgoing frames
     //    int length = sender->RWS;
+
+    if(sendQ_empty(sender)){
+        return ;
+    }
+
+    //处理第一个Frame
+    struct timeval  curr_timeval;
+    gettimeofday(&curr_timeval,NULL);
+
+    long last_time = timeval_usecdiff(&curr_timeval,&(sender->sendQ[sender->LAR].endtime));
+
+    printf("%ld\n",last_time);
+
+    if(last_time<0){
+        Frame *f = sender->sendQ[sender->LAR].frame;
+        sender->LAR = (sender->LAR+1)%SWS;
+
+        char * outgoing_charbuf = convert_frame_to_char(f);
+        ll_append_node(outgoing_frames_head_ptr, outgoing_charbuf);
+        /*添加crc校验*/
+        frame_add_crc_8(outgoing_charbuf);
+
+        gettimeofday(&(sender->sendQ[sender->LAF].startime),NULL);
+        sender->sendQ[sender->LAF].endtime.tv_sec = sender->sendQ[sender->LAF].startime.tv_sec;
+        sender->sendQ[sender->LAF].endtime.tv_usec = sender->sendQ[sender->LAF].startime.tv_usec+200000;//0.2s
+        sender->sendQ[sender->LAF].frame = f;
+
+//        sender->RWS+=1;
+        sender->LAF=(1+sender->LAF)%SWS;
+        sender->seq_num = sender->LAF;
+
+    }
+
 }
 
 
@@ -344,7 +335,6 @@ void * run_sender(void * input_sender)
         
         while(ll_outgoing_frame_length > 0)
         {
-        	// printf("%s\n","1");
             LLnode * ll_outframe_node = ll_pop_node(&outgoing_frames_head);
             char * char_buf = (char *)  ll_outframe_node->value;
 
