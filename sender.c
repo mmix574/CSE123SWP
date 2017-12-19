@@ -43,6 +43,25 @@ int sendQ_empty(Sender *sender){
     return sender->LAF == sender->LAR;
 }
 
+void print_queue(Sender *sender){
+    int max = SWS;
+    int start = sender->LAR;
+    int end = sender->LAF;
+
+    while(start!=end){
+
+        Frame *ff = sender->sendQ[start].frame;
+        char seq_num;
+
+        frame_get_seq_num(ff,&seq_num);
+        printf("%d--",seq_num);
+
+        start+=1;
+        start%=max;
+    }
+}
+
+
 void handle_incoming_acks(Sender * sender,
                           LLnode ** outgoing_frames_head_ptr)
 {
@@ -63,37 +82,65 @@ void handle_incoming_acks(Sender * sender,
         if(income_f_type==0){
             //data
         }else if(income_f_type==1){
-            printf("ack!\n");
             //ack
-        }else if(income_f_type==2){
-            //nak
-            printf("nak!\n");
-        }
+            char income_ack_num;
+            frame_get_ack_num(f,&income_ack_num);
+            //printf("ACK==> %d\n",income_ack_num);
+            char income_seq_num;
+            frame_get_seq_num(f,&income_seq_num);
+            //printf("SEQ==> %d\n",income_seq_num);
+            if(sendQ_empty(sender)){
+                return ;
+            }
+            if(sendQ_full(sender)){
+                return ;
+            }
+            Frame *fee_frame = sender->sendQ[sender->LAR].frame;
+            if(fee_frame==NULL){
+                return ;
+            }
+            char pool_fee_frame_ack;
+            frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
+            if(pool_fee_frame_ack==income_ack_num){
+                free(f);
+                sender->sendQ[sender->LAR].frame = NULL;
+                sender->LAR = (sender->LAR+1)%SWS;
+                sender->RWS-=1;
+            }else{
 
-        char income_ack_num;
-        frame_get_ack_num(f,&income_ack_num);
-//        printf("ACK==> %d\n",income_ack_num);
-        char income_seq_num;
-        frame_get_seq_num(f,&income_seq_num);
-//        printf("SEQ==> %d\n",income_seq_num);
-        if(sendQ_empty(sender)){
-            return ;
-        }
-        if(sendQ_full(sender)){
-            return ;
-        }
-        Frame *fee_frame = sender->sendQ[sender->LAR].frame;
-        if(fee_frame==NULL){
-            return ;
-        }
-        char pool_fee_frame_ack;
-        frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
-        if(pool_fee_frame_ack==income_ack_num){
-            free(f);
-            sender->sendQ[sender->LAR].frame = NULL;
-            sender->LAR = (sender->LAR+1)%SWS;
-            sender->RWS-=1;
-        }else{
+            }
+
+        }else if(income_f_type==2){
+            //回退N步
+            char income_seq_num;
+            frame_get_seq_num(f,&income_seq_num);
+            int is_send_start = 0;
+
+            int max = SWS;
+            int start = sender->LAR;
+            int end = sender->LAF;
+
+            while(start!=end){
+
+                Frame *ff = sender->sendQ[start].frame;
+                char seq_num;
+                frame_get_seq_num(ff,&seq_num);
+
+//                printf("%d %d\n",income_seq_num,seq_num);
+
+                if(seq_num==income_seq_num){
+                    is_send_start = 1;
+                }
+                if(is_send_start){
+                    char * outgoing_charbuf = convert_frame_to_char(ff);
+                    frame_add_crc_8(outgoing_charbuf);
+                    ll_append_node(outgoing_frames_head_ptr,
+                                   outgoing_charbuf);
+                }
+                start+=1;
+                start%=max;
+            }
+
 
         }
     }
