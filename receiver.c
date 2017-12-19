@@ -42,12 +42,23 @@ void handle_incoming_msgs(Receiver * receiver,
             //发送nak
             printf("crop!\n");
 
-//            Frame * inframe = convert_char_to_frame(raw_char_buf);
-//            char dst_id,src_id;
-//            frame_get_dst_src(inframe,&dst_id,&src_id);
+            Frame * inframe = convert_char_to_frame(raw_char_buf);
+            char dst_id,src_id;
+            frame_get_dst_src(inframe,&dst_id,&src_id);
+            free(inframe);
+
+            // --返回nak--
+            Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
+            char out_f_type = 2;
+            frame_add_type(outgoing_frame,out_f_type);
+            strcpy(outgoing_frame->data, "NAK!!");
+
+            char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
+            ll_append_node(outgoing_frames_head_ptr,
+                           outgoing_charbuf);
+
 //
-//
-//            return ;
+            return ;
         }
 
         Frame * inframe = convert_char_to_frame(raw_char_buf);
@@ -58,7 +69,6 @@ void handle_incoming_msgs(Receiver * receiver,
         if(receiver->recv_id!=dst_id){
             return ;
         }
-
 
         char in_f_type;
         frame_get_type(inframe,&in_f_type);

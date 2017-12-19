@@ -56,47 +56,46 @@ void handle_incoming_acks(Sender * sender,
         Frame * f = (Frame *) ll_frame_node->value;
         free(ll_frame_node);
 
+        char income_f_type;
+
+        frame_get_type(f,&income_f_type);
+
+        if(income_f_type==0){
+            //data
+        }else if(income_f_type==1){
+            printf("ack!\n");
+            //ack
+        }else if(income_f_type==2){
+            //nak
+            printf("nak!\n");
+        }
+
         char income_ack_num;
         frame_get_ack_num(f,&income_ack_num);
 //        printf("ACK==> %d\n",income_ack_num);
-
-
         char income_seq_num;
         frame_get_seq_num(f,&income_seq_num);
 //        printf("SEQ==> %d\n",income_seq_num);
-
-
-
         if(sendQ_empty(sender)){
             return ;
         }
         if(sendQ_full(sender)){
             return ;
         }
-
         Frame *fee_frame = sender->sendQ[sender->LAR].frame;
-
         if(fee_frame==NULL){
-//            printf("frame is null!!!\n");
             return ;
         }
-
-
         char pool_fee_frame_ack;
         frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
-
-//        printf("%d %d\n",sender->LAR,sender->LAF);
-
-
         if(pool_fee_frame_ack==income_ack_num){
             free(f);
             sender->sendQ[sender->LAR].frame = NULL;
             sender->LAR = (sender->LAR+1)%SWS;
             sender->RWS-=1;
         }else{
-//            printf("emmm\n");
+
         }
-//        printf("RWS-->%d",sender->RWS);
     }
 }
 
