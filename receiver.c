@@ -5,6 +5,8 @@ void init_receiver(Receiver * receiver,
 {
     receiver->recv_id = id;
     receiver->input_framelist_head = NULL;
+
+    receiver->seq_num = -1;
 }
 
 
@@ -76,7 +78,6 @@ void handle_incoming_msgs(Receiver * receiver,
 
         //Free raw_char_buf
         free(raw_char_buf);
-        printf("frame seq: %d\n",inframe->header[3]);
         printf("<RECV_%d>:[%s]\n", receiver->recv_id, inframe->data);
 
         free(inframe);

@@ -67,7 +67,9 @@ struct Receiver_t
     pthread_mutex_t buffer_mutex;
     pthread_cond_t buffer_cv;
     LLnode * input_framelist_head;
-    
+
+    char seq_num;
+
     int recv_id;
 };
 
@@ -106,7 +108,7 @@ typedef struct Frame_t Frame;
 
 
 
-#define SWS 5
+#define SWS 12
 
 struct sendQ_slot {
     struct timeval  endtime;
