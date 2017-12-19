@@ -58,13 +58,29 @@ void handle_incoming_msgs(Receiver * receiver,
         char seq_num;
         frame_get_seq_num(inframe,&seq_num);
 
+        if(receiver->seq_num==-1){
+            receiver->seq_num = seq_num;
+        }else{
+            if(receiver->seq_num+1!=seq_num){
+                return;
+            }else{
+                receiver->seq_num=seq_num;
+            }
+        }
+
         // --返回ack--
         Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
 
         // --ack type--
         char out_f_type = 1;
         frame_add_type(outgoing_frame,out_f_type);
+
+
+//        printf("receiver seq number is %d\n",seq_num);
+
+
         frame_add_ack_num(outgoing_frame,seq_num);
+//        frame_add_seq_num(outgoing_frame,seq_num);
 
         strcpy(outgoing_frame->data, "ACK!!");
 

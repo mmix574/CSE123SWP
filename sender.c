@@ -7,9 +7,10 @@ void init_sender(Sender * sender, int id)
     sender->input_cmdlist_head = NULL;
     sender->input_framelist_head = NULL;
 
-//    sender->seq_num = rand()%32768+32767;
-    
-    sender->seq_num = 0;
+//    int r = rand()%128+64;
+
+
+    sender->seq_num = 20;
     sender->LAR = 0;
     sender->LAF = 0;
 
@@ -30,14 +31,12 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 //NFE - Next frame expected
 //LFR - Sequence number of largest consecutive frame received
 //LAF - Sequence number of largest acceptable frame
-//
-//
 //RWS - Max receive window size
 //LFR = NFE - 1
 //LAF = NFE + RWS - 1
 
 int sendQ_full(Sender *sender){
-    return (sender->LAF+1)%SWS==0;
+    return (sender->LAF+1)%SWS==sender->LAR;
 }
 
 int sendQ_empty(Sender *sender){
@@ -59,7 +58,13 @@ void handle_incoming_acks(Sender * sender,
 
         char income_ack_num;
         frame_get_ack_num(f,&income_ack_num);
-        printf("income_ack_num %d\n",income_ack_num);
+//        printf("ACK==> %d\n",income_ack_num);
+
+
+        char income_seq_num;
+        frame_get_seq_num(f,&income_seq_num);
+//        printf("SEQ==> %d\n",income_seq_num);
+
 
 
         if(sendQ_empty(sender)){
@@ -70,16 +75,28 @@ void handle_incoming_acks(Sender * sender,
         }
 
         Frame *fee_frame = sender->sendQ[sender->LAR].frame;
+
+        if(fee_frame==NULL){
+//            printf("frame is null!!!\n");
+            return ;
+        }
+
+
         char pool_fee_frame_ack;
-        frame_get_ack_num(fee_frame,&pool_fee_frame_ack);
+        frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
+
+//        printf("%d %d\n",sender->LAR,sender->LAF);
+
 
         if(pool_fee_frame_ack==income_ack_num){
             free(f);
+            sender->sendQ[sender->LAR].frame = NULL;
             sender->LAR = (sender->LAR+1)%SWS;
             sender->RWS-=1;
         }else{
-            printf("something not good");
+//            printf("emmm\n");
         }
+//        printf("RWS-->%d",sender->RWS);
     }
 }
 
@@ -172,7 +189,7 @@ void handle_input_cmds(Sender * sender,
             sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
             sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
             sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
-            sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//2s
+            sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//1s +1000000
 
 
             sender->sendQ[sender->LAF].frame = outgoing_frame;
@@ -181,7 +198,7 @@ void handle_input_cmds(Sender * sender,
             //更新sender参数
             sender->RWS+=1;
             sender->LAF=(1+sender->LAF)%SWS;
-            sender->seq_num = sender->LAF;
+            sender->seq_num +=1;
 
         }
     }   
@@ -221,18 +238,16 @@ void handle_timedout_frames(Sender * sender,
         struct timeval current_time;
         gettimeofday(&current_time,NULL);
 
-        sender->sendQ[sender->LAR].startime.tv_sec = current_time.tv_sec;
-        sender->sendQ[sender->LAR].startime.tv_usec = current_time.tv_usec;
-        sender->sendQ[sender->LAR].endtime.tv_sec = current_time.tv_sec;
-        sender->sendQ[sender->LAR].endtime.tv_usec = current_time.tv_usec+200000;//2s
+        sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
+        sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
+        sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
+        sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//2s +200000
 
         sender->sendQ[sender->LAF].frame = f;
 
-        printf("resending %d\n",f->header[3]);
-
-        sender->LAR = (sender->LAR+1)%SWS;
-        sender->LAF=(1+sender->LAF)%SWS;
-        sender->seq_num = sender->LAF;
+        sender->LAR = (1+sender->LAR)%SWS;
+        sender->LAF = (1+sender->LAF)%SWS;
+//        sender->seq_num +=1;
     }
 
 }
