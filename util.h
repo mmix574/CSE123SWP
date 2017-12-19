@@ -45,4 +45,14 @@ int frame_corruped(char * char_frame);
 Frame * frame_add_dst_src(Frame * frame,char dst,char src);
 void frame_get_dst_src(Frame * frame,char *dst,char *src);
 
+
+Frame * frame_add_seq_num(Frame * frame,char seq);
+void frame_get_seq_num(Frame * frame,char *seq);
+
+Frame * frame_add_type(Frame * frame,char type);
+void frame_get_type(Frame * frame,char *type);
+
+Frame * frame_add_ack_num(Frame * frame,char ack);
+void frame_get_ack_num(Frame * frame,char *ack);
+
 #endif

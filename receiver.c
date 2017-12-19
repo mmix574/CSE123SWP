@@ -49,9 +49,25 @@ void handle_incoming_msgs(Receiver * receiver,
             return ;
         }
 
+
+        char in_f_type;
+        frame_get_type(inframe,&in_f_type);
+
+        char seq_num;
+        frame_get_seq_num(inframe,&seq_num);
+
         // --返回ack--
         Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
-        strcpy(outgoing_frame->data, "ACK?!");
+
+        // --ack type--
+        char out_f_type = 1;
+        frame_add_type(outgoing_frame,out_f_type);
+        frame_add_ack_num(outgoing_frame,seq_num);
+
+        strcpy(outgoing_frame->data, "ACK!!");
+
+
+
 
         //Convert the message to the outgoing_charbuf
         char * outgoing_charbuf = convert_frame_to_char(outgoing_frame);
@@ -60,7 +76,7 @@ void handle_incoming_msgs(Receiver * receiver,
 
         //Free raw_char_buf
         free(raw_char_buf);
-        
+        printf("frame seq: %d\n",inframe->header[3]);
         printf("<RECV_%d>:[%s]\n", receiver->recv_id, inframe->data);
 
         free(inframe);

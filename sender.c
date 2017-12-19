@@ -6,7 +6,11 @@ void init_sender(Sender * sender, int id)
     sender->send_id = id;
     sender->input_cmdlist_head = NULL;
     sender->input_framelist_head = NULL;
+
     sender->seq_num = 0;
+    sender->LAR = 0;
+    sender->LAF = 0;
+
 
     for(int i =0;i<SWS;i++){
         sender->sendQ[i].frame = NULL;
@@ -17,14 +21,16 @@ void init_sender(Sender * sender, int id)
 struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 {
     //TODO: You should fill in this function so that it returns the next timeout that should occur
-    struct sendQ_slot * s= NULL;
-    for(int i =0;i<SWS;i++) {
-        if (!s) {
-            s = &(sender->sendQ[i]);
-        }
-        //todo
-    }
-    return &(s->endtime);
+//    struct sendQ_slot * s= NULL;
+//    for(int i =0;i<SWS;i++) {
+//        if (!s) {
+//            s = &(sender->sendQ[i]);
+//        }
+//        //todo
+//    }
+//    return &(s->endtime);
+
+    return NULL;
 }
 
 
@@ -37,6 +43,19 @@ struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 //RWS - Max receive window size
 //LFR = NFE - 1
 //LAF = NFE + RWS - 1
+
+int sendQ_full(Sender *sender){
+    if((sender->LAF+1)%SWS==0){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int sendQ_empty(Sender *sender){
+    return sender->LAF == sender->LAR;
+}
+
 
 
 // Only
@@ -54,6 +73,11 @@ void handle_incoming_acks(Sender * sender,
         free(ll_frame_node);
             
         printf("%s\n",f->data);
+
+
+        char ack;
+        frame_get_ack_num(f,&ack);
+        printf("%d\n",ack);
 
         //DUMMY CODE: Add the raw char buf to the outgoing_frames list
         //NOTE: You should not blindly send this message out!
@@ -113,9 +137,6 @@ void handle_input_cmds(Sender * sender,
         free(ll_input_cmd_node);
 
 
-
-
-
         //DUMMY CODE: Add the raw char buf to the outgoing_frames list
         //NOTE: You should not blindly send this message out!
         //      Ask yourself: Is this message actually going to the right receiver (recall that default behavior of send is to broadcast to all receivers)?
@@ -129,6 +150,12 @@ void handle_input_cmds(Sender * sender,
         }
         else
         {
+            if(sendQ_full(sender)){
+                //队列满，退出
+                return ;
+            }
+
+
             //This is probably ONLY one step you want
             Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
             strcpy(outgoing_frame->data, outgoing_cmd->message);
@@ -139,6 +166,13 @@ void handle_input_cmds(Sender * sender,
             char src_id = (char)(outgoing_cmd->src_id);
             frame_add_dst_src(outgoing_frame,dst_id,src_id);
 
+
+            unsigned char seq = sender->seq_num;
+            frame_add_seq_num(outgoing_frame,seq);
+
+            //正常的数据包类型
+            unsigned char f_type = 0;
+            frame_add_type(outgoing_frame,f_type);
 
             //At this point, we don't need the outgoing_cmd
             free(outgoing_cmd->message);
@@ -158,7 +192,17 @@ void handle_input_cmds(Sender * sender,
             //保留frame，ACK之后再释放
             //free(outgoing_frame);
 
+            // 获取时间
+            gettimeofday(&(sender->sendQ[sender->LAF].startime),NULL);
+            sender->sendQ[sender->LAF].endtime.tv_sec = sender->sendQ[sender->LAF].startime.tv_sec;
+            sender->sendQ[sender->LAF].endtime.tv_usec = sender->sendQ[sender->LAF].startime.tv_usec+1000000;//1s
+            sender->sendQ[sender->LAF].frame = outgoing_frame;
 
+
+            //更新sender参数
+            sender->RWS+=1;
+            sender->LAF=(1+sender->LAF)%SWS;
+            sender->seq_num = sender->LAF;
 
         }
     }   
@@ -168,15 +212,11 @@ void handle_input_cmds(Sender * sender,
 void handle_timedout_frames(Sender * sender,
                             LLnode ** outgoing_frames_head_ptr)
 {
-
-    // printf("%s\n","handle_timedout_frames");
-
-
     //TODO: Suggested steps for handling timed out datagrams
     //    1) Iterate through the sliding window protocol information you maintain for each receiver
     //    2) Locate frames that are timed out and add them to the outgoing frames
     //    3) Update the next timeout field on the outgoing frames
-
+    //    int length = sender->RWS;
 }
 
 
