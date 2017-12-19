@@ -108,7 +108,7 @@ typedef struct Frame_t Frame;
 
 
 
-#define SWS 20
+#define SWS 12
 
 struct sendQ_slot {
     struct timeval  endtime;

@@ -188,8 +188,8 @@ void handle_input_cmds(Sender * sender,
 
             sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
             sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
-            sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
-            sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//1s +1000000
+            sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec+1;
+            sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec;//1s +1000000
 
 
             sender->sendQ[sender->LAF].frame = outgoing_frame;
@@ -240,8 +240,8 @@ void handle_timedout_frames(Sender * sender,
 
         sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
         sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
-        sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
-        sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//2s +200000
+        sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec+1;
+        sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec;//2s +200000
 
         sender->sendQ[sender->LAF].frame = f;
 

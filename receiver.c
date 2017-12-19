@@ -6,7 +6,7 @@ void init_receiver(Receiver * receiver,
     receiver->recv_id = id;
     receiver->input_framelist_head = NULL;
 
-    receiver->seq_num = -1;
+    receiver->seq_num = 20;
 }
 
 
@@ -39,7 +39,15 @@ void handle_incoming_msgs(Receiver * receiver,
         //检测帧是否损坏
         int crop = frame_corruped(raw_char_buf);
         if(crop){
-            return ;
+            //发送nak
+            printf("crop!\n");
+
+//            Frame * inframe = convert_char_to_frame(raw_char_buf);
+//            char dst_id,src_id;
+//            frame_get_dst_src(inframe,&dst_id,&src_id);
+//
+//
+//            return ;
         }
 
         Frame * inframe = convert_char_to_frame(raw_char_buf);
@@ -61,10 +69,10 @@ void handle_incoming_msgs(Receiver * receiver,
         if(receiver->seq_num==-1){
             receiver->seq_num = seq_num;
         }else{
-            if(receiver->seq_num+1!=seq_num){
+            if(receiver->seq_num!=seq_num){
                 return;
             }else{
-                receiver->seq_num=seq_num;
+                receiver->seq_num+=1;
             }
         }
 
