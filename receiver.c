@@ -9,8 +9,6 @@ void init_receiver(Receiver * receiver,
 
 
 
-
-
 void handle_incoming_msgs(Receiver * receiver,
                           LLnode ** outgoing_frames_head_ptr)
 {

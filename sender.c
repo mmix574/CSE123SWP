@@ -8,17 +8,23 @@ void init_sender(Sender * sender, int id)
     sender->input_framelist_head = NULL;
     sender->seq_num = 0;
 
+    for(int i =0;i<SWS;i++){
+        sender->sendQ[i].frame = NULL;
+    }
+
 }
 
 struct timeval * sender_get_next_expiring_timeval(Sender * sender)
 {
     //TODO: You should fill in this function so that it returns the next timeout that should occur
-
-
-
-
-
-    return NULL;
+    struct sendQ_slot * s= NULL;
+    for(int i =0;i<SWS;i++) {
+        if (!s) {
+            s = &(sender->sendQ[i]);
+        }
+        //todo
+    }
+    return &(s->endtime);
 }
 
 
@@ -148,7 +154,12 @@ void handle_input_cmds(Sender * sender,
 
             ll_append_node(outgoing_frames_head_ptr,
                            outgoing_charbuf);
-            free(outgoing_frame);
+
+            //保留frame，ACK之后再释放
+            //free(outgoing_frame);
+
+
+
         }
     }   
 }

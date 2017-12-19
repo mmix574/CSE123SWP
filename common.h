@@ -107,6 +107,13 @@ typedef struct Frame_t Frame;
 
 
 #define SWS 5
+#define RWS (SWS-1)
+
+struct sendQ_slot {
+    struct timeval  endtime;
+    struct timeval startime;
+    Frame *frame;
+};
 
 
 struct Sender_t
@@ -123,27 +130,21 @@ struct Sender_t
     LLnode * input_framelist_head;
     int send_id;
 
-//NFE - Next frame expected
-//LFR - Sequence number of largest consecutive frame received
-//LAF - Sequence number of largest acceptable frame
-//
-//
-//RWS - Max receive window size
+    //NFE - Next frame expected
+    //LFR - Sequence number of largest consecutive frame received
+    //LAF - Sequence number of largest acceptable frame
+    //RWS - Max receive window size
 
 
-//LFR = NFE - 1
-//LAF = NFE + RWS - 1
-
+    //LFR = NFE - 1
+    //LAF = NFE + RWS - 1
 
     int sendQSize;
     unsigned char seq_num;
     unsigned char LAR;
 
-    struct sendQ_slot {
-        struct timespec  timeout;
-        struct timeval startime;
-        Frame *frame;
-    } sendQ[SWS];
+    struct sendQ_slot sendQ[SWS];
+
 };
 
 
