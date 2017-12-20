@@ -80,9 +80,9 @@ void handle_incoming_acks(Sender * sender,
             char income_ack_num;
             frame_get_ack_num(f,&income_ack_num);
 
-            if(income_ack_num<sender->seq_num){
-                return;
-            }
+            // if(income_ack_num<sender->seq_num){
+            //     return;
+            // }
 
             char income_seq_num;
             frame_get_seq_num(f,&income_seq_num);
