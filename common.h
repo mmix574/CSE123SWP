@@ -132,8 +132,8 @@ struct Sender_t
     int send_id;
 
     //NFE - Next frame expected
-//   // LFR - Sequence number of largest consecutive frame received
-//    LAF - Sequence number of largest acceptable frame
+	//LFR - Sequence number of largest consecutive frame received
+	//LAF - Sequence number of largest acceptable frame
     //RWS - Max receive window size
 
 
@@ -147,9 +147,6 @@ struct Sender_t
 
 
     unsigned char seq_num;
-
-//    unsigned char NFE;
-//    int sendQSize;
 
     struct sendQ_slot sendQ[SWS];
 

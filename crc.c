@@ -34,6 +34,7 @@ void print_char(char A){
 }
 
 void append_crc (char* array, int array_len){
+	//填充最后一个byte 为 0x00
     array[array_len] = 0x00;
     array[array_len] = crc8(array,array_len+1);
     array[array_len+1] = '\0';

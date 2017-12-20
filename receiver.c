@@ -39,8 +39,9 @@ void handle_incoming_msgs(Receiver * receiver,
         //检测帧是否损坏
         int crop = frame_corruped(raw_char_buf);
         if(crop){
+
             //发送nak
-//            printf("crop!\n");
+            //printf("crop!\n");
 
             Frame * inframe = convert_char_to_frame(raw_char_buf);
             char dst_id,src_id;
@@ -96,7 +97,6 @@ void handle_incoming_msgs(Receiver * receiver,
                 receiver->seq_num+=1;
             }
         }
-
         // --返回ack--
         Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
 
@@ -104,16 +104,12 @@ void handle_incoming_msgs(Receiver * receiver,
         char out_f_type = 1;
         frame_add_type(outgoing_frame,out_f_type);
 
-
 //        printf("receiver seq number is %d\n",seq_num);
-
 
         frame_add_ack_num(outgoing_frame,seq_num);
 //        frame_add_seq_num(outgoing_frame,seq_num);
 
         strcpy(outgoing_frame->data, "ACK!!");
-
-
 
 
         //Convert the message to the outgoing_charbuf

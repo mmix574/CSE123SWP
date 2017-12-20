@@ -7,8 +7,6 @@ void init_sender(Sender * sender, int id)
     sender->input_cmdlist_head = NULL;
     sender->input_framelist_head = NULL;
 
-//    int r = rand()%128+64;
-
     sender->seq_num = 20;
     sender->LAR = 0;
     sender->LAF = 0;
@@ -48,13 +46,10 @@ void print_queue(Sender *sender){
     int end = sender->LAF;
 
     while(start!=end){
-
         Frame *ff = sender->sendQ[start].frame;
         char seq_num;
-
         frame_get_seq_num(ff,&seq_num);
         printf("%d--",seq_num);
-
         start+=1;
         start%=max;
     }
@@ -96,21 +91,6 @@ void handle_incoming_acks(Sender * sender,
             }
 
 
-//            Frame *fee_frame = sender->sendQ[sender->LAR].frame;
-//            if(fee_frame==NULL){
-//                return ;
-//            }
-//            char pool_fee_frame_ack;
-//            frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
-//            if(pool_fee_frame_ack==income_ack_num){
-//                free(f);
-//                sender->sendQ[sender->LAR].frame = NULL;
-//                sender->LAR = (sender->LAR+1)%SWS;
-//                sender->RWS-=1;
-//            }else{
-//
-//            }
-
             int max = SWS;
             int start = sender->LAR;
             int end = sender->LAF;
@@ -135,6 +115,7 @@ void handle_incoming_acks(Sender * sender,
                 start%=max;
             }
 
+            //连续确认
             if(pop_end!=-1){
                 start = sender->LAR;
                 end = pop_end;
@@ -171,9 +152,7 @@ void handle_incoming_acks(Sender * sender,
                 Frame *ff = sender->sendQ[start].frame;
                 char seq_num;
                 frame_get_seq_num(ff,&seq_num);
-
 //                printf("%d %d\n",income_seq_num,seq_num);
-
                 if(seq_num==income_seq_num){
                     is_send_start = 1;
                 }
@@ -280,8 +259,8 @@ void handle_input_cmds(Sender * sender,
 
             sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
             sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
-            sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec+1;
-            sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec;//1s +1000000
+            sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
+            sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//1s = 1000000
 
 
             sender->sendQ[sender->LAF].frame = outgoing_frame;
@@ -332,8 +311,8 @@ void handle_timedout_frames(Sender * sender,
 
         sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
         sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
-        sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec+1;
-        sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec;//2s +200000
+        sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
+        sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//1s = 1000000
 
         sender->sendQ[sender->LAF].frame = f;
 
