@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/CSE123SWP.dir/other/crc8.cpp.o CMakeFiles/CSE123SWP.dir/communicate.c.o CMakeFiles/CSE123SWP.dir/input.c.o CMakeFiles/CSE123SWP.dir/main.c.o CMakeFiles/CSE123SWP.dir/receiver.c.o CMakeFiles/CSE123SWP.dir/sender.c.o CMakeFiles/CSE123SWP.dir/util.c.o CMakeFiles/CSE123SWP.dir/crc.c.o  -o CSE123SWP 
