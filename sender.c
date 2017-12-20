@@ -288,38 +288,66 @@ void handle_timedout_frames(Sender * sender,
     if(sendQ_empty(sender)){
         return ;
     }
-
-    //处理第一个Frame
     struct timeval  curr_timeval;
-    gettimeofday(&curr_timeval,NULL);
 
-    long last_time = timeval_usecdiff(&curr_timeval,&(sender->sendQ[sender->LAR].endtime));
+    int max = SWS;
+    int start = sender->LAR;
+    int end = sender->LAF;
 
-//    printf("%ld\n",last_time);
+    while(start!=end){
+    	gettimeofday(&curr_timeval,NULL);
+    	long last_time = timeval_usecdiff(&curr_timeval,&(sender->sendQ[start].endtime));
 
-    if(last_time<0){
-        Frame *f = sender->sendQ[sender->LAR].frame;
+		if(last_time<0){
+		        Frame *f = sender->sendQ[start].frame;
 
+		        char * outgoing_charbuf = convert_frame_to_char(f);
+		        ll_append_node(outgoing_frames_head_ptr, outgoing_charbuf);
+		        /*添加crc校验*/
+		        frame_add_crc_8(outgoing_charbuf);
 
-        char * outgoing_charbuf = convert_frame_to_char(f);
-        ll_append_node(outgoing_frames_head_ptr, outgoing_charbuf);
-        /*添加crc校验*/
-        frame_add_crc_8(outgoing_charbuf);
+		        struct timeval current_time;
+		        gettimeofday(&current_time,NULL);
 
-        struct timeval current_time;
-        gettimeofday(&current_time,NULL);
+		        sender->sendQ[start].startime.tv_sec = current_time.tv_sec;
+		        sender->sendQ[start].startime.tv_usec = current_time.tv_usec;
+		        sender->sendQ[start].endtime.tv_sec = current_time.tv_sec;
+		        sender->sendQ[start].endtime.tv_usec = current_time.tv_usec+200000;//1s = 1000000
 
-        sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
-        sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
-        sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
-        sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//1s = 1000000
-
-        sender->sendQ[sender->LAF].frame = f;
-
-        sender->LAR = (1+sender->LAR)%SWS;
-        sender->LAF = (1+sender->LAF)%SWS;
-//        sender->seq_num +=1;
+		}
+        start+=1;
+        start%=max;
     }
+//     //处理第一个Frame
+//     gettimeofday(&curr_timeval,NULL);
+
+//     long last_time = timeval_usecdiff(&curr_timeval,&(sender->sendQ[sender->LAR].endtime));
+
+// //    printf("%ld\n",last_time);
+
+//     if(last_time<0){
+//         Frame *f = sender->sendQ[sender->LAR].frame;
+
+
+//         char * outgoing_charbuf = convert_frame_to_char(f);
+//         ll_append_node(outgoing_frames_head_ptr, outgoing_charbuf);
+//         /*添加crc校验*/
+//         frame_add_crc_8(outgoing_charbuf);
+
+//         struct timeval current_time;
+//         gettimeofday(&current_time,NULL);
+
+//         sender->sendQ[sender->LAF].startime.tv_sec = current_time.tv_sec;
+//         sender->sendQ[sender->LAF].startime.tv_usec = current_time.tv_usec;
+//         sender->sendQ[sender->LAF].endtime.tv_sec = current_time.tv_sec;
+//         sender->sendQ[sender->LAF].endtime.tv_usec = current_time.tv_usec+200000;//1s = 1000000
+
+//         sender->sendQ[sender->LAF].frame = f;
+
+//         sender->LAR = (1+sender->LAR)%SWS;
+//         sender->LAF = (1+sender->LAF)%SWS;
+// //        sender->seq_num +=1;
+//     }
 
 }
 
