@@ -188,6 +188,12 @@ void handle_input_cmds(Sender * sender,
     input_cmd_length = ll_get_length(sender->input_cmdlist_head);
     while (input_cmd_length > 0)
     {
+
+        if(sendQ_full(sender)){
+            // printf("%s\n", "queue full..");
+            return ;
+        }
+    	
         //Pop a node off and update the input_cmd_length
         LLnode * ll_input_cmd_node = ll_pop_node(&sender->input_cmdlist_head);
         input_cmd_length = ll_get_length(sender->input_cmdlist_head);
@@ -210,11 +216,6 @@ void handle_input_cmds(Sender * sender,
         }
         else
         {
-            if(sendQ_full(sender)){
-                //队列满，退出
-                return ;
-            }
-
 
             //This is probably ONLY one step you want
             Frame * outgoing_frame = (Frame *) malloc (sizeof(Frame));
