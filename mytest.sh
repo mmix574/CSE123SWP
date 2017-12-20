@@ -39,15 +39,15 @@ echo -n "Test case 1: Sending 1 packet and expecting receiver to print it out: "
 
 ## Test Case 2
 echo -n "Test case 2: Sending 10 packets and expecting receiver to print them out in order: "
-(sleep 0.5; for i in `seq 1 10`; do echo "msg 0 0 Packet: $i"; sleep 0.1; done; sleep 1; echo "exit") | ./tritontalk -r 1 -s 1
+(sleep 0.5; for i in `seq 1 20`; do echo "msg 0 0 Packet: $i"; sleep 0.1; done; sleep 1; echo "exit") | ./tritontalk -r 1 -s 1
 
 ## Test Case 3
 echo -n "Test case 3: Sending 10 packets (with corrupt probability of 40%) and expecting receiver to print them out in order: "
-(sleep 0.5; for i in `seq 1 10`; do echo "msg 0 0 Packet: $i"; sleep 0.1; done; sleep 5; echo "exit") | ./tritontalk -c 0.4 -r 1 -s 1
+(sleep 0.5; for i in `seq 1 20`; do echo "msg 0 0 Packet: $i"; sleep 0.1; done; sleep 5; echo "exit") | ./tritontalk -c 0.4 -r 1 -s 1
 
 ## Test Case 4
 echo -n "Test case 4: Sending 10 packets (with corrupt probability of 20% and drop probability of 20%) and expecting receiver to print them out in order: "
-(sleep 0.5; for i in `seq 1 10`; do echo "msg 0 0 Packet: $i"; sleep 0.1; done; sleep 5; echo "exit") | ./tritontalk -d 0.2 -c 0.2 -r 1 -s 1
+(sleep 0.5; for i in `seq 1 20`; do echo "msg 0 0 Packet: $i"; sleep 0.1; done; sleep 5; echo "exit") | ./tritontalk -d 0.2 -c 0.2 -r 1 -s 1
 
 
 
