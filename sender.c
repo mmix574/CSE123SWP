@@ -9,7 +9,6 @@ void init_sender(Sender * sender, int id)
 
 //    int r = rand()%128+64;
 
-
     sender->seq_num = 20;
     sender->LAR = 0;
     sender->LAF = 0;
@@ -85,30 +84,77 @@ void handle_incoming_acks(Sender * sender,
             //ack
             char income_ack_num;
             frame_get_ack_num(f,&income_ack_num);
-            //printf("ACK==> %d\n",income_ack_num);
+
+            if(income_ack_num<sender->seq_num){
+                return;
+            }
+
             char income_seq_num;
             frame_get_seq_num(f,&income_seq_num);
-            //printf("SEQ==> %d\n",income_seq_num);
             if(sendQ_empty(sender)){
                 return ;
             }
-            if(sendQ_full(sender)){
-                return ;
+
+
+//            Frame *fee_frame = sender->sendQ[sender->LAR].frame;
+//            if(fee_frame==NULL){
+//                return ;
+//            }
+//            char pool_fee_frame_ack;
+//            frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
+//            if(pool_fee_frame_ack==income_ack_num){
+//                free(f);
+//                sender->sendQ[sender->LAR].frame = NULL;
+//                sender->LAR = (sender->LAR+1)%SWS;
+//                sender->RWS-=1;
+//            }else{
+//
+//            }
+
+            int max = SWS;
+            int start = sender->LAR;
+            int end = sender->LAF;
+
+            int pop_end = -1;
+
+            while(start!=end){
+
+                Frame *ff = sender->sendQ[start].frame;
+                if(!ff){
+                    break;
+                }
+                char seq_num;
+
+                frame_get_seq_num(ff,&seq_num);
+
+                if(seq_num==income_ack_num){
+                    pop_end = start;
+                    break;
+                }
+                start+=1;
+                start%=max;
             }
-            Frame *fee_frame = sender->sendQ[sender->LAR].frame;
-            if(fee_frame==NULL){
-                return ;
-            }
-            char pool_fee_frame_ack;
-            frame_get_seq_num(fee_frame,&pool_fee_frame_ack);
-            if(pool_fee_frame_ack==income_ack_num){
-                free(f);
-                sender->sendQ[sender->LAR].frame = NULL;
-                sender->LAR = (sender->LAR+1)%SWS;
-                sender->RWS-=1;
-            }else{
+
+            if(pop_end!=-1){
+                start = sender->LAR;
+                end = pop_end;
+
+                while(start!=end){
+
+                    Frame *ff = sender->sendQ[start].frame;
+                    sender->sendQ[start].frame = NULL;
+                    sender->LAR = (sender->LAR+1)%SWS;
+                    sender->RWS-=1;
+
+                    free(ff);
+
+                    start+=1;
+                    start%=max;
+                }
 
             }
+
+
 
         }else if(income_f_type==2){
             //回退N步
