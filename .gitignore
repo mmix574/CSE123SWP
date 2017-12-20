@@ -1,6 +1,6 @@
 .output.*
 .expect*
-.debut*
+.debug*
 
 *.o
 .idea/*
